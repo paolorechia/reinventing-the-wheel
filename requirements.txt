@@ -1,2 +1,5 @@
 numpy
 ipython
+pylint
+flake8
+mypy
