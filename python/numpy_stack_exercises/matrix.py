@@ -74,6 +74,3 @@ if __name__ == "__main__":
         for j in range(n):
             assert int(pure[i][j]) == int(num[i][j])
 
-    print(f"Elapsed time size(n={n}):")
-    print(f"Pure: {elapsed_pure_time}")
-    print(f"Numpy: {elapsed_num_time}")

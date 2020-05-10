@@ -1,3 +1,4 @@
 *.swp
 *.pyc
 .python-version
+*/node_modules/*
