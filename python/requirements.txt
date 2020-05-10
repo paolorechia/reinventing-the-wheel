@@ -3,3 +3,6 @@ ipython
 pylint
 flake8
 mypy
+matplotlib
+requests
+pillow
