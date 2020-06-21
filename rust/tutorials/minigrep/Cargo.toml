@@ -3,3 +3,8 @@ name = "minigrep"
 version = "0.1.0"
 license = "MIT"
 description = "An implementation of the Minigrep tutorial"
+
+authors = ["Paolo Rechia <paolorechia@gmail.com>"]
+edition = "2018"
+
+[dependencies]

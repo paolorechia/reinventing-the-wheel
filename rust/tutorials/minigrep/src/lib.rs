@@ -7,8 +7,6 @@ use std::fs;
 use std::env;
 use std::error::Error;
 
-
-
 pub struct Config {
     pub query: String,
     pub filename: String,
