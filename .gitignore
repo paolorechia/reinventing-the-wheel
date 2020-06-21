@@ -3,4 +3,4 @@
 .python-version
 */node_modules/*
 **/rustlings
-**/rust/target
+**/**/target

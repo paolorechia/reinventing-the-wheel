@@ -6,3 +6,4 @@ mypy
 matplotlib
 requests
 pillow
+pandas

@@ -15,7 +15,6 @@ def generate_random_matrix(n=100):
         rows.append(cols)
     return rows
 
-
 def pure_python_multiplication(A, B, n):
     # iterate through A lines
     C = []
@@ -61,6 +60,8 @@ if __name__ == "__main__":
     num_start = perf_counter()
     num = numpy_multiplication(np.array(A), np.array(B))
     elapsed_num_time = perf_counter() - num_start
+
+
 
     # print("---Generate---")
     # print_matrix(A, n)
