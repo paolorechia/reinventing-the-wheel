@@ -1,8 +1,8 @@
 use std::env;
 use std::process;
 
-use minigrep::Config;
-use minigrep::run;
+use paolo_minigrep::Config;
+use paolo_minigrep::run;
 
 fn main() {
     let cfg = Config::new(env::args()).unwrap_or_else( |err| {

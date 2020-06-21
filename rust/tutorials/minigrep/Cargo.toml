@@ -1,5 +1,5 @@
 [package]
-name = "minigrep"
+name = "paolo_minigrep"
 version = "0.1.0"
 license = "MIT"
 description = "An implementation of the Minigrep tutorial"
