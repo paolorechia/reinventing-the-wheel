@@ -1,3 +1,9 @@
+use iterators::Counter;
+
 fn main() {
-    println!("Hello, world!");
+
+    let counter = Counter::new();
+    for c in counter {
+        println!("{}", c);
+    }
 }

@@ -1,6 +1,12 @@
+//! # My own minigrep
+//!
+//! `minigrep` is a crate part of the official learn-rust book.
+//! This is the result of following the tutorial.
+//!
 use std::fs;
 use std::env;
 use std::error::Error;
+
 
 
 pub struct Config {
@@ -11,19 +17,24 @@ pub struct Config {
 
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments!");
-        }
-        let query = args[1].clone();
-        let filename = args[2].clone();
+    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(a) => a,
+            None => return Err("Please enter the query arg!")
+        };
+
+        let filename = match args.next() {
+            Some(a) => a,
+            None => return Err("Please enter the filename arg!")
+        };
 
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
 
         Ok(Config {query, filename, case_sensitive})
     }
 }
-
 
 pub fn run(cfg: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(cfg.filename)?;
@@ -41,16 +52,27 @@ pub fn run(cfg: Config) -> Result<(), Box<dyn Error>> {
 }
 
 
-pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut vec = Vec::new();
+/// Filters lines that match the pattern.
+///
+/// # Examples
+///
+/// ```
+/// 
+/// let query = "duct";
+/// let contents = "\
+///Rust:
+///safe, fast, productive.
+///Pick three.
+///Duct tape.";
+/// assert_eq!(vec!["safe, fast, productive."],
+///            minigrep::search(query, contents));
+/// ```
 
-    for s in contents.split("\n") {
-        match s.find(query) {
-            Some(_) => vec.push(s),
-            None => ()
-        }
-    }
-    vec
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .split("\n") 
+        .filter(|x| x.contains(query))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
@@ -71,27 +93,6 @@ pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a st
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn test_config_new() {
-        let mut v: Vec<String> = Vec::new();
-        v.push("cli name".to_string());
-        v.push("query".to_string());
-        v.push("filename".to_string());
-
-        let cfg = Config::new(&v).unwrap();
-        assert_eq!(cfg.query, "query");
-        assert_eq!(cfg.filename, "filename");
-    }
-
-    #[test]
-    fn test_config_wrong_number_args() -> () {
-        let mut v: Vec<String> = Vec::new();
-        v.push("cli name".to_string());
-        v.push("query".to_string());
-        let cfg = Config::new(&v);
-        assert!(cfg.is_err());
-    }
 
     #[test]
     fn case_sensitive() {
