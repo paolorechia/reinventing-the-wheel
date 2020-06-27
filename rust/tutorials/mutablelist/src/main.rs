@@ -11,7 +11,7 @@ impl List {
     fn new(v: i32) -> List {
         List {
             value: v,
-            next: None
+            next: None,
         }
     }
 
@@ -26,7 +26,9 @@ impl List {
     fn pop(&mut self) {
         if self.next != None {
             List::_pop_iterate(&mut self.next);
-        } 
+        } else {
+            panic!("List is empty!");
+        }
     }
 
     fn _append_iterate(n: &mut Option<Rc<RefCell<List>>>, v: i32) {
@@ -51,6 +53,16 @@ impl List {
             *n = None;
         }
     }
+
+    
+    /*
+    fn _find_tail(n: &mut Option<Rc<RefCell<List>>>) -> &Option<Rc<RefCell<List>>> {
+        while n.hasNext {
+            n = &mut n.as_ref().unwrap().borrow_mut().next;
+        }
+    }
+    */
+    
 }
 
 fn main () {
@@ -60,11 +72,5 @@ fn main () {
     l.push(5);
     l.push(6);
 
-    println!("{:?}", l);
-    l.pop();
-    println!("{:?}", l);
-    l.pop();
-    println!("{:?}", l);
-    l.pop();
-    println!("{:?}", l);
+//    List::_find_tail(&mut l.next);
 }
