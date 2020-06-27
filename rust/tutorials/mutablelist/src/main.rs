@@ -15,22 +15,34 @@ impl List {
         }
     }
 
-    fn append(n: &mut Option<Rc<RefCell<List>>>, v: i32) -> () {
-       println!("Calling append on {:?}", n);
+    fn push(&mut self, v: i32) {
+        if self.next == None {
+            self.next = Some(Rc::new(RefCell::new(List::new(v))));
+        } else {
+            List::_append_iterate(&mut self.next, v);
+        }
+    }
+
+    fn pop(&mut self) {
+        if self.next != None {
+            List::_pop_iterate(&mut self.next);
+        } 
+    }
+
+    fn _append_iterate(n: &mut Option<Rc<RefCell<List>>>, v: i32) {
        if *n != None {
-           List::append(&mut n.as_ref().unwrap().borrow_mut().next, v);
+           List::_append_iterate(&mut n.as_ref().unwrap().borrow_mut().next, v);
        } else {
-           println!("Found None!");
            *n = Some(Rc::new(RefCell::new(List::new(v))))
        }
     }
     
-    fn pop(n: &mut Option<Rc<RefCell<List>>>) -> () {
+    fn _pop_iterate(n: &mut Option<Rc<RefCell<List>>>) {
         let mut should_pop = false;
         {
             let next = &mut n.as_ref().unwrap().borrow_mut().next;
             if *next != None {
-                List::pop(next);
+                List::_pop_iterate(next);
             } else {
                 should_pop = true;
             }
@@ -42,34 +54,17 @@ impl List {
 }
 
 fn main () {
-    let mut l = &mut List::new(2);
+    let l = &mut List::new(0);
     println!("{:?}", l);
-    l.value = 1;
-    println!("{:?}", l);
-
-    let l2 = Some(Rc::new(RefCell::new(List::new(2))));
-    
-    let l3 = Some(Rc::new(RefCell::new(List::new(3))));
-    
-    l.next = l2;
-    
-    let p = &(l.next);
-
-    let link = p.as_ref();
-    println!("{:?}", link);
-    
-    link.unwrap().borrow_mut().next = l3;
+    l.push(4);
+    l.push(5);
+    l.push(6);
 
     println!("{:?}", l);
-
-    List::append(&mut l.next, 4);
-    List::append(&mut l.next, 5);
-    List::append(&mut l.next, 6);
-    List::append(&mut l.next, 7);
-
+    l.pop();
     println!("{:?}", l);
-    
-    List::pop(&mut l.next);
+    l.pop();
     println!("{:?}", l);
-    
+    l.pop();
+    println!("{:?}", l);
 }
