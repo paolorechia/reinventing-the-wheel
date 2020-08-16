@@ -27,9 +27,8 @@ main =   Browser.element
     }
 
 
-dice number =
-  case number of
-    Just n -> if n == 1 then
+dice n =
+    if n == 1 then
         diceSvgFace1
       else if n == 2 then
         diceSvgFace2
@@ -41,7 +40,6 @@ dice number =
         diceSvgFace5
       else
         diceSvgFace6
-    Nothing -> diceSvgFace1
 
 diceSvgFace1 =
   Svg.svg
@@ -341,7 +339,7 @@ type alias Model =
 
 init : () -> (Model, Cmd Msg)
 init _ =
-  ( Model [1, 1]
+  ( Model [1, 1, 1, 1, 1, 1]
   , Cmd.none
   )
 
@@ -386,8 +384,7 @@ view : Model -> Html Msg
 view model =
   div []
     [ h1 [] [ text "Roll!" ]
-    , dice (List.head model.dieFaces)
-    , dice (List.head (List.drop 1 model.dieFaces))
+    , div [] (List.map dice model.dieFaces)
     , div [] []
     , button [ onClick Roll ] [ text "Roll" ]
     ]
