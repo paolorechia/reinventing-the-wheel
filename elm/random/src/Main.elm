@@ -4,6 +4,8 @@
 --   https://guide.elm-lang.org/effects/random.html
 --
 
+module Main exposing (..)
+
 import Svg
 import Svg.Attributes exposing (..)
 
@@ -26,18 +28,20 @@ main =   Browser.element
 
 
 dice number =
-  if number == 1 then
-    diceSvgFace1
-  else if number == 2 then
-    diceSvgFace2
-  else if number == 3 then
-    diceSvgFace3
-  else if number == 4 then
-    diceSvgFace4
-  else if number == 5 then
-    diceSvgFace5
-  else
-    diceSvgFace6
+  case number of
+    Just n -> if n == 1 then
+        diceSvgFace1
+      else if n == 2 then
+        diceSvgFace2
+      else if n == 3 then
+        diceSvgFace3
+      else if n == 4 then
+        diceSvgFace4
+      else if n == 5 then
+        diceSvgFace5
+      else
+        diceSvgFace6
+    Nothing -> diceSvgFace1
 
 diceSvgFace1 =
   Svg.svg
@@ -331,13 +335,13 @@ dot6_6 =
 
 
 type alias Model =
-  { dieFace : Int
+  { dieFaces: List Int
   }
 
 
 init : () -> (Model, Cmd Msg)
 init _ =
-  ( Model 1
+  ( Model [1, 1]
   , Cmd.none
   )
 
@@ -348,7 +352,7 @@ init _ =
 
 type Msg
   = Roll
-  | NewFace Int
+  | NewFaces (List Int)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -356,14 +360,14 @@ update msg model =
   case msg of
     Roll ->
       ( model
-      , Random.generate NewFace (Random.int 1 6)
+      , Random.generate NewFaces (Random.list (List.length model.dieFaces) (Random.int 1 6))
       )
 
-    NewFace newFace ->
+    NewFaces newFace ->
       ( Model newFace
       , Cmd.none
       )
-
+      
 
 
 -- SUBSCRIPTIONS
@@ -382,7 +386,9 @@ view : Model -> Html Msg
 view model =
   div []
     [ h1 [] [ text "Roll!" ]
-    , dice model.dieFace
+    , dice (List.head model.dieFaces)
+    , dice (List.head (List.drop 1 model.dieFaces))
     , div [] []
     , button [ onClick Roll ] [ text "Roll" ]
     ]
+
