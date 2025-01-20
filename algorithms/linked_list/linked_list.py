@@ -1,5 +1,6 @@
 from typing import Any, Iterator
 
+
 class EmptyListException(Exception):
     pass
 
@@ -18,7 +19,7 @@ class LinkedList:
     @property
     def empty(self) -> bool:
         return self.size == 0
-    
+
     def __len__(self) -> int:
         return self.size
 
@@ -28,7 +29,6 @@ class LinkedList:
 
         if index >= self.size:
             raise IndexError(f"Index not found: {index}")
-
 
     def __iter__(self) -> Iterator[Any]:
         current = self.head
@@ -47,7 +47,6 @@ class LinkedList:
         current.next = Node(value)
         self.size += 1
 
-
     def get(self, index):
         self._check_bounds(index)
 
@@ -59,7 +58,6 @@ class LinkedList:
             current_index += 1
             if current_index == index:
                 return current
-            
 
     def delete(self, index) -> Node:
         self._check_bounds(index)
@@ -81,7 +79,6 @@ class LinkedList:
         self.size -= 1
         return to_delete
 
-
     def pop_head(self) -> Node:
         if self.empty:
             raise EmptyListException
@@ -91,4 +88,3 @@ class LinkedList:
 
         self.size -= 1
         return old_head
-
