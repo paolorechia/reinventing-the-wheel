@@ -36,6 +36,8 @@ class LinkedList:
             current = current.next
             yield current.value
 
+    def __getitem__(self, key) -> Any:
+        return self.get(key).value
 
     def append(self, value):
         current = self.head

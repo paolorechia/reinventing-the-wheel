@@ -86,3 +86,10 @@ def test_iter(filled_llist: LinkedList):
     array = [1,2,3,4,5]
     for idx, value in enumerate(filled_llist):
         assert value == array[idx]
+
+
+def test_index(filled_llist: LinkedList):
+    array = [1,2,3,4,5]
+    for idx, a in enumerate(array):
+        assert filled_llist[idx] == a
+
