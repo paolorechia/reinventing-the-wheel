@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Iterator
 
 class EmptyListException(Exception):
     pass
@@ -28,6 +28,13 @@ class LinkedList:
 
         if index >= self.size:
             raise IndexError(f"Index not found: {index}")
+
+
+    def __iter__(self) -> Iterator[Any]:
+        current = self.head
+        while current.next is not None:
+            current = current.next
+            yield current.value
 
 
     def append(self, value):

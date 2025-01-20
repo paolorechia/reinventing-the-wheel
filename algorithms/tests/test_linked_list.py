@@ -80,3 +80,9 @@ def test_delete(filled_llist: LinkedList):
         collected.append(filled_llist.get(i).value)
 
     assert collected == [1, 2, 4, 5]
+
+
+def test_iter(filled_llist: LinkedList):
+    array = [1,2,3,4,5]
+    for idx, value in enumerate(filled_llist):
+        assert value == array[idx]
