@@ -18,6 +18,16 @@ class LinkedList:
     @property
     def empty(self) -> bool:
         return self.size == 0
+    
+    def __len__(self) -> int:
+        return self.size
+
+    def _check_bounds(self, index):
+        if index < 0:
+            raise IndexError(f"Index not found: {index}")
+
+        if index >= self.size:
+            raise IndexError(f"Index not found: {index}")
 
 
     def append(self, value):
@@ -29,7 +39,41 @@ class LinkedList:
         self.size += 1
 
 
-    def pop(self):
+    def get(self, index):
+        self._check_bounds(index)
+
+        current = self.head
+        current_index = -1
+
+        while current.next is not None:
+            current = current.next
+            current_index += 1
+            if current_index == index:
+                return current
+            
+
+    def delete(self, index) -> Node:
+        self._check_bounds(index)
+
+        current = self.head
+        current_index = -1
+
+        to_delete = None
+        while current.next is not None:
+            previous = current
+            current = current.next
+            current_index += 1
+
+            if current_index == index:
+                to_delete = current
+                break
+
+        previous.next = to_delete.next
+        self.size -= 1
+        return to_delete
+
+
+    def pop_head(self) -> Node:
         if self.empty:
             raise EmptyListException
 
